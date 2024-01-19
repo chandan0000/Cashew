@@ -31,18 +31,11 @@ with open(dir_path + csv_file_name, 'r', encoding='utf-8') as file:
 # Get the header row containing the languages
 languages = rows[0][1:]
 
-# Generate the output files
-current_lang_index = 1
-for lang in languages:
-    print("Current Language - " + lang)
-    current_lang_data = {}
-    for row in rows[2:]:
-        current_lang_data[row[0]] = row[current_lang_index]
-
+for current_lang_index, lang in enumerate(languages, start=1):
+    print(f"Current Language - {lang}")
+    current_lang_data = {row[0]: row[current_lang_index] for row in rows[2:]}
     # Write the JSON file
-    with open(dir_path + "generated/" + lang + ".json", 'w', encoding='utf-8') as file:
+    with open(f"{dir_path}generated/{lang}.json", 'w', encoding='utf-8') as file:
         json.dump(current_lang_data, file, indent=2, ensure_ascii=False)
-
-    current_lang_index += 1
 
 print("Done!")
